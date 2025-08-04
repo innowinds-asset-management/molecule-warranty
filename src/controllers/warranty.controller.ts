@@ -58,7 +58,7 @@ export const getWarrantiesByAsset = async (req: Request, res: Response) => {
     if (!id) {
         return res.status(400).json({ error: 'Asset ID is required' });
     }
-    const warranties = await warrantyService.getWarrantiesByAsset(parseInt(id));
+    const warranties = await warrantyService.getWarrantiesByAsset(id);
     return res.json(warranties);
 };
 

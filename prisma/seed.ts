@@ -205,7 +205,7 @@ async function main() {
   const warranties = await Promise.all([
     prisma.warranties.create({
       data: {
-        assetId: 1001,
+        assetId: '1001',
         warrantyTypeId: warrantyTypes[0].warrantyTypeId, // Manufacturer
         warrantySupplierId: 'MANUF-001',
         warrantyNumber: 'WAR-2024-001',
@@ -224,7 +224,7 @@ async function main() {
     }),
     prisma.warranties.create({
       data: {
-        assetId: 1002,
+        assetId: '1002',
         warrantyTypeId: warrantyTypes[1].warrantyTypeId, // Extended
         warrantySupplierId: 'EXTEND-001',
         warrantyNumber: 'WAR-2024-002',
@@ -243,7 +243,7 @@ async function main() {
     }),
     prisma.warranties.create({
       data: {
-        assetId: 1003,
+        assetId: '1003',
         warrantyTypeId: warrantyTypes[2].warrantyTypeId, // Service Contract
         warrantySupplierId: 'SERVICE-001',
         warrantyNumber: 'WAR-2024-003',
@@ -262,7 +262,7 @@ async function main() {
     }),
     prisma.warranties.create({
       data: {
-        assetId: 1004,
+        assetId: '1004',
         warrantyTypeId: warrantyTypes[3].warrantyTypeId, // Third Party
         warrantySupplierId: 'THIRD-001',
         warrantyNumber: 'WAR-2024-004',
@@ -281,7 +281,7 @@ async function main() {
     }),
     prisma.warranties.create({
       data: {
-        assetId: 1005,
+        assetId: '1005',
         warrantyTypeId: warrantyTypes[4].warrantyTypeId, // Premium
         warrantySupplierId: 'PREMIUM-001',
         warrantyNumber: 'WAR-2024-005',
@@ -309,7 +309,7 @@ async function main() {
       data: {
         contractNumber: 'SC-2024-001',
         contractTypeId: contractTypes[0].contractTypeId, // AMC
-        assetId: 2001,
+        assetId: '2001',
         serviceSupplierId: 1,
         contractName: 'Annual Maintenance Contract - HVAC System',
         startDate: new Date('2024-01-01'),
@@ -331,7 +331,7 @@ async function main() {
       data: {
         contractNumber: 'SC-2024-002',
         contractTypeId: contractTypes[1].contractTypeId, // CMC
-        assetId: 2002,
+        assetId: '2002',
         serviceSupplierId: 2,
         contractName: 'Comprehensive Maintenance Contract - Production Line',
         startDate: new Date('2024-02-01'),
@@ -353,7 +353,7 @@ async function main() {
       data: {
         contractNumber: 'SC-2024-003',
         contractTypeId: contractTypes[2].contractTypeId, // ON_CALL
-        assetId: 2003,
+        assetId: '2003',
         serviceSupplierId: 3,
         contractName: 'On-Call Service Contract - Backup Systems',
         startDate: new Date('2024-03-01'),
@@ -375,7 +375,7 @@ async function main() {
       data: {
         contractNumber: 'SC-2024-004',
         contractTypeId: contractTypes[3].contractTypeId, // BREAKDOWN_MAINTENANCE
-        assetId: 2004,
+        assetId: '2004',
         serviceSupplierId: 4,
         contractName: 'Breakdown Maintenance Contract - Conveyor System',
         startDate: new Date('2024-04-01'),

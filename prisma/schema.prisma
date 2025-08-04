@@ -23,7 +23,7 @@ model WarrantyType {
 
 model Warranties {
   warrantyId           Int       @id @default(autoincrement())
-  assetId              Int
+  assetId              String   @db.VarChar(255)
   warrantyTypeId       Int
   warrantySupplierId   String?   @db.VarChar(255) // Could be manufacturer or third-party
   warrantyNumber       String?   @db.VarChar(100)
@@ -140,7 +140,7 @@ model ServiceContract {
   contractId                        Int       @id @default(autoincrement())
   contractNumber                    String    @unique @db.VarChar(100)
   contractTypeId                    Int
-  assetId                           Int
+  assetId                           String   @db.VarChar(255)
   serviceSupplierId                 Int
   contractName                      String    @db.VarChar(255)
   startDate                         DateTime  @db.Date

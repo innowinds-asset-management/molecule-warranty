@@ -95,7 +95,7 @@ export class WarrantyService {
     });
   }
 
-  async getWarrantiesByAsset(assetId: number): Promise<any[]> {
+  async getWarrantiesByAsset(assetId: string): Promise<any[]> {
     return prisma.warranties.findMany({
       where: { assetId },
       include: {

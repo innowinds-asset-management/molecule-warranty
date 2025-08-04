@@ -82,7 +82,7 @@ export interface WarrantyTypeListDto {
 
 export interface Warranties {
   warrantyId: number;
-  assetId: number;
+  assetId: string;
   warrantyTypeId: number;
   warrantySupplierId?: string;
   warrantyNumber?: string;
@@ -104,7 +104,7 @@ export interface Warranties {
 }
 
 export interface CreateWarrantyDto {
-  assetId: number;
+  assetId: string;
   warrantyTypeId: number;
   warrantySupplierId?: string;
   warrantyNumber?: string;
@@ -122,7 +122,7 @@ export interface CreateWarrantyDto {
 }
 
 export interface UpdateWarrantyDto {
-  assetId?: number;
+  assetId?: string;
   warrantyTypeId?: number;
   warrantySupplierId?: string;
   warrantyNumber?: string;
@@ -140,7 +140,7 @@ export interface UpdateWarrantyDto {
 }
 
 export interface WarrantySearchDto {
-  assetId?: number;
+  assetId?: string;
   warrantyTypeId?: number;
   consumerId?: number;
   supplierId?: number;
@@ -272,7 +272,7 @@ export interface ServiceContract {
   contractId: number;
   contractNumber: string;
   contractTypeId: number;
-  assetId: number;
+  assetId: string;
   serviceSupplierId: number;
   contractName: string;
   startDate: Date;
@@ -297,7 +297,7 @@ export interface ServiceContract {
 export interface CreateServiceContractDto {
   contractNumber: string;
   contractTypeId: number;
-  assetId: number;
+  assetId: string;
   serviceSupplierId: number;
   contractName: string;
   startDate: Date;
@@ -318,7 +318,7 @@ export interface CreateServiceContractDto {
 export interface UpdateServiceContractDto {
   contractNumber?: string;
   contractTypeId?: number;
-  assetId?: number;
+  assetId?: string;
   serviceSupplierId?: number;
   contractName?: string;
   startDate?: Date;
@@ -557,7 +557,7 @@ export interface WarrantyQueryParams {
   page?: number;
   limit?: number;
   search?: string;
-  assetId?: number;
+  assetId?: string;
   warrantyTypeId?: number;
   consumerId?: number;
   supplierId?: number;
