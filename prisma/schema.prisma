@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//type_name-- 'Manufacturer', 'Extended', 'Service Contract', etc.
+model WarrantyType {
+  warrantyTypeId Int      @id @default(autoincrement()) 
+  typeName       String   @db.VarChar(100)              
+  description    String?  @db.Text
+  createdAt      DateTime @default(now())              
+
+  // Relations
+  warranties      Warranties[]
+
+  @@map("WarrantyType")
+}
+
+
+model Warranties {
+  warrantyId           Int       @id @default(autoincrement())
+  assetId              Int
+  warrantyTypeId       Int
+  warrantySupplierId   String?   @db.VarChar(255) // Could be manufacturer or third-party
+  warrantyNumber       String?   @db.VarChar(100)
+  startDate            DateTime
+  endDate              DateTime
+  warrantyPeriod       Int?
+  coverageType         String?   @db.Text
+  coverageDescription  String?   @db.Text
+  termsConditions      String?   @db.Text
+  cost                 Decimal?  @db.Decimal(10,2) // Uncomment if cost is needed
+  isActive             Boolean   @default(true)
+  autoRenewal          Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  consumerId           Int?
+  supplierId           Int?
+
+  // Relations
+  warrantyType         WarrantyType @relation(fields: [warrantyTypeId], references: [warrantyTypeId])
+  notifications        WarrantyNotification[]
+
+  @@index([endDate], name: "idxEndDate")
+  @@index([assetId], name: "idxAssetId")
+
+   @@map("warranties")
+}
+
+enum WarrantyNotificationType {
+  Expiry_Warning
+  Expired
+  Renewal_Due
+  Claim_Update
+}
+
+model WarrantyNotification {
+  notificationId     Int      @id @default(autoincrement())
+  warrantyId         Int
+  notificationType   WarrantyNotificationType
+  message            String
+  recipientEmail     String?
+  sentDate           DateTime?
+  isSent             Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  warranty           Warranties @relation(fields: [warrantyId], references: [warrantyId])
+
+  @@map("warrantyNotifications")
+}
+
+
+/// ConsumerPreference model stores notification preferences for each consumer.
+model ConsumerPreference {
+  preferenceId      Int      @id @default(autoincrement())
+  consumerId        Int      
+  notificationDays  Int      @default(30) // Days before expiry to send notification
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+ 
+
+  @@unique([consumerId])
+  @@map("consumerPreferences")
+}
+
+/// SupplierPreference model stores notification preferences for each supplier.
+/// Allows suppliers to set how many days before warranty expiry they want to be notified.
+model SupplierPreference {
+  preferenceId      Int      @id @default(autoincrement())
+  supplierId        Int      
+  notificationDays  Int      @default(30) // Days before expiry to send notification
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([supplierId])
+  @@map("supplierPreferences")
+}
+
+enum ContractTypeName {
+  AMC
+  CMC
+  ON_CALL
+  BREAKDOWN_MAINTENANCE
+}
+
+model ContractType {
+  contractTypeId          Int      @id @default(autoincrement()) 
+  typeName                ContractTypeName            
+  typeCode                String   @unique @db.VarChar(10)       
+  description             String?                       
+  contractDurationMonths  Int?    
+  createdAt               DateTime @default(now())               
+
+  // Relations
+  serviceContracts      ServiceContract[]
+
+  @@map("contractTypes")
+}
+
+//
+/// ServiceContractStatus model stores the possible statuses for service contracts.
+/// This is a lookup table referenced by ServiceContract.
+model ServiceContractStatus {
+  statusId   Int    @id @default(autoincrement())
+  name       String @unique @db.VarChar(20) // e.g., Draft, Active, Expired, Terminated, Suspended
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  serviceContracts ServiceContract[]
+
+  @@map("serviceContractsStatus")
+}
+
+model ServiceContract {
+  contractId                        Int       @id @default(autoincrement())
+  contractNumber                    String    @unique @db.VarChar(100)
+  contractTypeId                    Int
+  assetId                           Int
+  serviceSupplierId                 Int
+  contractName                      String    @db.VarChar(255)
+  startDate                         DateTime  @db.Date
+  endDate                           DateTime  @db.Date
+  paymentTerms                      PaymentTerms   @default(YEARLY)
+  coverageType                      CoverageType   @default(COMPREHENSIVE)
+  includes                          String?
+  excludes                          String?
+  serviceFrequency                  ServiceFrequency @default(QUARTERLY)
+  preventiveMaintenanceIncluded     Boolean   @default(true)
+  breakdownMaintenanceIncluded      Boolean   @default(true)
+  autoRenewal                       Boolean   @default(false)
+  createdBy                         String?   @db.VarChar(100)
+  updatedBy                         String?   @db.VarChar(100)
+  createdAt                         DateTime  @default(now())
+  updatedAt                         DateTime  @updatedAt
+
+  // Relations
+  contractType                      ContractType @relation(fields: [contractTypeId], references: [contractTypeId])
+  status                            ServiceContractStatus? @relation(fields: [statusId], references: [statusId])
+  statusId                          Int?
+
+  @@map("serviceContracts")
+  @@index([contractNumber], name: "idxContractName")
+  @@index([startDate], name: "idxStartDate")
+  @@index([endDate], name: "idxEndDate")
+  @@index([assetId], name: "idxAssetId")
+}
+
+enum PaymentTerms {
+  MONTHLY
+  QUARTERLY
+  HALF_YEARLY
+  YEARLY
+  ONE_TIME
+}
+
+enum CoverageType {
+  COMPREHENSIVE
+  PARTS_ONLY
+  LABOR_ONLY
+  PREVENTIVE_ONLY
+}
+
+enum ServiceFrequency {
+  MONTHLY
+  QUARTERLY
+  HALF_YEARLY
+  YEARLY
+  AS_REQUIRED
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
