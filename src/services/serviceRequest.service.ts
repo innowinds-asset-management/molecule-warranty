@@ -1,22 +1,22 @@
 import { PrismaClient } from '@prisma/client';
-import { ServiceHistoryDto } from '../types';
+import { ServiceRequestDto } from '../types';
 
 const prisma = new PrismaClient();
 
-export class ServiceHistoryService {
+export class ServiceRequestService {
   /**
-   * Fetch service history records with pagination.
+   * Fetch service request records with pagination.
    * @param page Page number (default: 1)
    * @param limit Number of records per page (default: 10)
    * @param assetId Optional filter by assetId
-   * @returns Paginated service history records
+   * @returns Paginated service request records
    */
-  async getServiceHistoryPaginated(
+  async getServiceRequestPaginated(
     page: number = 1,
     limit: number = 10,
     assetId?: string
   ): Promise<{
-    data: ServiceHistoryDto[];
+    data: ServiceRequestDto[];
     pagination: {
       page: number;
       limit: number;
@@ -35,8 +35,8 @@ export class ServiceHistoryService {
     }
 
     const [total, records] = await Promise.all([
-      prisma.serviceHistory.count({ where }),
-      prisma.serviceHistory.findMany({
+      prisma.serviceRequest.count({ where }),
+      prisma.serviceRequest.findMany({
         where,
         skip: (pageNum - 1) * limitNum,
         take: limitNum,
@@ -47,7 +47,7 @@ export class ServiceHistoryService {
     const totalPages = Math.ceil(total / limitNum);
 
     return {
-      data: records as ServiceHistoryDto[],
+      data: records as ServiceRequestDto[],
       pagination: {
         page: pageNum,
         limit: limitNum,
@@ -59,62 +59,64 @@ export class ServiceHistoryService {
     };
   }
 
-  async getServiceHistoryById(id: number): Promise<ServiceHistoryDto | null> {
-    const record = await prisma.serviceHistory.findUnique({
-      where: { serviceHistoryId: id }
+  async getServiceRequestById(id: number): Promise<ServiceRequestDto | null> {
+    const record = await prisma.serviceRequest.findUnique({
+      where: { serviceRequestId: id }
     });
-    return record as ServiceHistoryDto;
+    return record as ServiceRequestDto;
   }
 
-  async updateServiceHistory(id: number, data: ServiceHistoryDto): Promise<ServiceHistoryDto> {
-    const updated = await prisma.serviceHistory.update({
-      where: { serviceHistoryId: id },
+  async updateServiceRequest(id: number, data: ServiceRequestDto): Promise<ServiceRequestDto> {
+    const updated = await prisma.serviceRequest.update({
+      where: { serviceRequestId: id },
       data: {
         assetId: data.assetId,
         technicianName: data.technicianName,
         serviceSupplierName: data.serviceSupplierName,
         warrantyStatus: data.warrantyStatus as any, // cast if enum
         serviceStatus: data.serviceStatus || null,
+        approverName: data.approverName || null,
         serviceDate: data.serviceDate,
         serviceType: data.serviceType || null,
         serviceDescription: data.serviceDescription || null,
       },
     });
-    return updated as ServiceHistoryDto;
+    return updated as ServiceRequestDto;
   }
 
-  async getServiceHistoryByAssetId(assetId: string): Promise<ServiceHistoryDto[]> {
-    const records = await prisma.serviceHistory.findMany({
+  async getServiceRequestByAssetId(assetId: string): Promise<ServiceRequestDto[]> {
+    const records = await prisma.serviceRequest.findMany({
       where: { assetId },
       orderBy: { serviceDate: 'desc' }
     });
-    return records as ServiceHistoryDto[];
+    return records as ServiceRequestDto[];
   }
 
-  async deleteServiceHistory(id: number): Promise<void> {
-    await prisma.serviceHistory.delete({
-      where: { serviceHistoryId: id }
+  async deleteServiceRequest(id: number): Promise<void> {
+    await prisma.serviceRequest.delete({
+      where: { serviceRequestId: id }
     });
   }
 
-  async createServiceHistory(data: ServiceHistoryDto): Promise<ServiceHistoryDto> {
-    const created = await prisma.serviceHistory.create({
+  async createServiceRequest(data: ServiceRequestDto): Promise<ServiceRequestDto> {
+    const created = await prisma.serviceRequest.create({
       data: {
         assetId: data.assetId,
         technicianName: data.technicianName,
         serviceSupplierName: data.serviceSupplierName,
         warrantyStatus: data.warrantyStatus as any, // cast if enum
         serviceStatus: data.serviceStatus || null,
+        approverName: data.approverName || null,
         serviceDate: data.serviceDate,
         serviceType: data.serviceType || null,
         serviceDescription: data.serviceDescription || null,
       },
     });
-    return created as ServiceHistoryDto;
+    return created as ServiceRequestDto;
   }
 } 
 
 
 
-export const serviceHistoryService = new ServiceHistoryService();
+export const serviceRequestService = new ServiceRequestService();
 

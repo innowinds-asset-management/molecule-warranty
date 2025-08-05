@@ -170,8 +170,8 @@ model ServiceContract {
   @@index([assetId], name: "idxAssetId")
 }
 
-model ServiceHistory {
-  serviceHistoryId      Int    @id @default(autoincrement())
+model ServiceRequest {
+  serviceRequestId      Int    @id @default(autoincrement())
   assetId               String @db.VarChar(255)
   technicianName        String @db.VarChar(100)
   serviceSupplierName   String @db.VarChar(100)
@@ -184,12 +184,36 @@ model ServiceHistory {
     
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
+  approverName         String?
 
-  @@map("serviceHistory")
-  @@index([serviceDate], name: "idxServiceHistoryDate")
-  @@index([assetId], name: "idxServiceHistoryAssetId")
+  // Relations
+  serviceRequestItems   ServiceRequestItem[]
+
+  @@map("serviceRequest")
+  @@index([serviceDate], name: "idxServiceRequestDate")
+  @@index([assetId], name: "idxServiceRequestAssetId")
   @@index([warrantyStatus], name: "idxWarrantyStatus")
 }
+
+model ServiceRequestItem {
+  serviceRequestItemId  Int      @id @default(autoincrement())
+  serviceRequestId      Int
+  assetId               String   @db.VarChar(255)
+  partName              String   @db.VarChar(255)
+  partCost              Float
+  labourCost            Float
+  defectDescription     String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  serviceRequest        ServiceRequest @relation(fields: [serviceRequestId], references: [serviceRequestId])
+
+  @@map("serviceRequestItem")
+  @@index([serviceRequestId], name: "idxServiceRequestItemRequestId")
+  @@index([assetId], name: "idxServiceRequestItemAssetId")
+}
+
 
 // Warranty Status Enum for better type safety and consistency
 enum WarrantyStatus {

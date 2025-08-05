@@ -584,19 +584,50 @@ export interface ServiceContractQueryParams {
   coverageType?: CoverageType;
 }
 
-//SeriveHistory 
-export interface ServiceHistoryDto {
-  serviceHistoryId?: number;
+//ServiceRequest 
+export interface ServiceRequestDto {
+  serviceRequestId?: number;
   assetId: string;
   technicianName: string;
   serviceSupplierName: string;
   warrantyStatus: string; // or WarrantyStatus if you have the enum imported
   serviceStatus?: string;
+  approverName?: string;
   serviceDate: Date;
   serviceType?: string;
   serviceDescription?: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface ServiceRequestItemDto {
+  serviceRequestItemId?: number;
+  serviceRequestId: number;
+  assetId: string;
+  partName: string;
+  partCost: number;
+  labourCost: number;
+  defectDescription?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface CreateServiceRequestItemDto {
+  serviceRequestId: number;
+  assetId: string;
+  partName: string;
+  partCost: number;
+  labourCost: number;
+  defectDescription?: string;
+}
+
+export interface UpdateServiceRequestItemDto {
+  serviceRequestId?: number;
+  assetId?: string;
+  partName?: string;
+  partCost?: number;
+  labourCost?: number;
+  defectDescription?: string;
 }
 
 

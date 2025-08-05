@@ -726,12 +726,12 @@ const options = {
             }
           }
         },
-        ServiceHistory: {
+        ServiceRequest: {
           type: 'object',
           properties: {
-            serviceHistoryId: {
+            serviceRequestId: {
               type: 'integer',
-              description: 'Unique identifier for the service history record'
+              description: 'Unique identifier for the service request record'
             },
             assetId: {
               type: 'string',
@@ -754,6 +754,11 @@ const options = {
               type: 'string',
               nullable: true,
               description: 'Status of the service performed'
+            },
+            approverName: {
+              type: 'string',
+              nullable: true,
+              description: 'Name of the person who approved the service request'
             },
             serviceDate: {
               type: 'string',
@@ -781,9 +786,9 @@ const options = {
               description: 'Service history last update timestamp'
             }
           },
-          required: ['serviceHistoryId', 'assetId', 'technicianName', 'serviceSupplierName', 'warrantyStatus', 'serviceDate', 'createdAt', 'updatedAt']
+          required: ['serviceRequestId', 'assetId', 'technicianName', 'serviceSupplierName', 'warrantyStatus', 'serviceDate', 'createdAt', 'updatedAt']
         },
-        CreateServiceHistoryDto: {
+        CreateServiceRequestDto: {
           type: 'object',
           properties: {
             assetId: {
@@ -823,7 +828,111 @@ const options = {
           },
           required: ['assetId', 'technicianName', 'serviceSupplierName', 'warrantyStatus', 'serviceDate']
         },
-        UpdateServiceHistoryDto: {
+        ServiceRequestItem: {
+          type: 'object',
+          properties: {
+            serviceRequestItemId: {
+              type: 'integer',
+              description: 'Unique identifier for the service request item'
+            },
+            serviceRequestId: {
+              type: 'integer',
+              description: 'ID of the service request this item belongs to'
+            },
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this item belongs to'
+            },
+            partName: {
+              type: 'string',
+              description: 'Name of the part used in the service'
+            },
+            partCost: {
+              type: 'number',
+              description: 'Cost of the part'
+            },
+            labourCost: {
+              type: 'number',
+              description: 'Cost of labour for this item'
+            },
+            defectDescription: {
+              type: 'string',
+              nullable: true,
+              description: 'Description of the defect or issue'
+            },
+            createdAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Item creation timestamp'
+            },
+            updatedAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Item last update timestamp'
+            }
+          },
+          required: ['serviceRequestItemId', 'serviceRequestId', 'assetId', 'partName', 'partCost', 'labourCost', 'createdAt', 'updatedAt']
+        },
+        CreateServiceRequestItemDto: {
+          type: 'object',
+          properties: {
+            serviceRequestId: {
+              type: 'integer',
+              description: 'ID of the service request this item belongs to'
+            },
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this item belongs to'
+            },
+            partName: {
+              type: 'string',
+              description: 'Name of the part used in the service'
+            },
+            partCost: {
+              type: 'number',
+              description: 'Cost of the part'
+            },
+            labourCost: {
+              type: 'number',
+              description: 'Cost of labour for this item'
+            },
+            defectDescription: {
+              type: 'string',
+              description: 'Description of the defect or issue'
+            }
+          },
+          required: ['serviceRequestId', 'assetId', 'partName', 'partCost', 'labourCost']
+        },
+        UpdateServiceRequestItemDto: {
+          type: 'object',
+          properties: {
+            serviceRequestId: {
+              type: 'integer',
+              description: 'ID of the service request this item belongs to'
+            },
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this item belongs to'
+            },
+            partName: {
+              type: 'string',
+              description: 'Name of the part used in the service'
+            },
+            partCost: {
+              type: 'number',
+              description: 'Cost of the part'
+            },
+            labourCost: {
+              type: 'number',
+              description: 'Cost of labour for this item'
+            },
+            defectDescription: {
+              type: 'string',
+              description: 'Description of the defect or issue'
+            }
+          }
+        },
+        UpdateServiceRequestDto: {
           type: 'object',
           properties: {
             assetId: {

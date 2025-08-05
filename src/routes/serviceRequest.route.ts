@@ -1,16 +1,16 @@
-// src/routes/serviceHistory.route.ts
+// src/routes/serviceRequest.route.ts
 import { Router } from 'express';
-import { ServiceHistoryController } from '../controllers/serviceHistory.controller';
+import { ServiceRequestController } from '../controllers/serviceRequest.controller';
 
 const router = Router();
-const serviceHistoryController = new ServiceHistoryController();
+const serviceRequestController = new ServiceRequestController();
 
 /**
  * @swagger
- * /api/v1/service-history:
+ * /api/v1/service-request:
  *   get:
- *     summary: Get all service history records with pagination
- *     tags: [Service History]
+ *     summary: Get all service request records with pagination
+ *     tags: [Service Request]
  *     parameters:
  *       - $ref: '#/components/parameters/page'
  *       - $ref: '#/components/parameters/limit'
@@ -21,7 +21,7 @@ const serviceHistoryController = new ServiceHistoryController();
  *         description: Filter by asset ID
  *     responses:
  *       200:
- *         description: List of service history records retrieved successfully
+ *         description: List of service request records retrieved successfully
  *         content:
  *           application/json:
  *             schema:
@@ -30,47 +30,47 @@ const serviceHistoryController = new ServiceHistoryController();
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/ServiceHistory'
+ *                     $ref: '#/components/schemas/ServiceRequest'
  *                 pagination:
  *                   $ref: '#/components/schemas/PaginationInfo'
  *       500:
  *         description: Internal server error
  */
-router.get('/', serviceHistoryController.getServiceHistoryPaginated);
+router.get('/', serviceRequestController.getServiceRequestPaginated);
 
 /**
  * @swagger
- * /api/v1/service-history/{id}:
+ * /api/v1/service-request/{id}:
  *   get:
- *     summary: Get service history record by ID
- *     tags: [Service History]
+ *     summary: Get service request record by ID
+ *     tags: [Service Request]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: Service history ID
+ *         description: Service request ID
  *     responses:
  *       200:
- *         description: Service history record retrieved successfully
+ *         description: Service request record retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ServiceHistory'
+ *               $ref: '#/components/schemas/ServiceRequest'
  *       404:
- *         description: Service history record not found
+ *         description: Service request record not found
  *       500:
  *         description: Internal server error
  */
-router.get('/:id', serviceHistoryController.getServiceHistoryById);
+router.get('/:id', serviceRequestController.getServiceRequestById);
 
 /**
  * @swagger
- * /api/v1/service-history/asset/{assetId}:
+ * /api/v1/service-request/asset/{assetId}:
  *   get:
- *     summary: Get service history records by asset ID
- *     tags: [Service History]
+ *     summary: Get service request records by asset ID
+ *     tags: [Service Request]
  *     parameters:
  *       - in: path
  *         name: assetId
@@ -80,98 +80,98 @@ router.get('/:id', serviceHistoryController.getServiceHistoryById);
  *         description: Asset ID
  *     responses:
  *       200:
- *         description: Service history records retrieved successfully
+ *         description: Service request records retrieved successfully
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/ServiceHistory'
+ *                 $ref: '#/components/schemas/ServiceRequest'
  *       500:
  *         description: Internal server error
  */
-router.get('/asset/:assetId', serviceHistoryController.getServiceHistoryByAssetId);
+router.get('/asset/:assetId', serviceRequestController.getServiceRequestByAssetId);
 
 /**
  * @swagger
- * /api/v1/service-history:
+ * /api/v1/service-request:
  *   post:
- *     summary: Create a new service history record
- *     tags: [Service History]
+ *     summary: Create a new service request record
+ *     tags: [Service Request]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CreateServiceHistoryDto'
+ *             $ref: '#/components/schemas/CreateServiceRequestDto'
  *     responses:
  *       201:
- *         description: Service history record created successfully
+ *         description: Service request record created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ServiceHistory'
+ *               $ref: '#/components/schemas/ServiceRequest'
  *       400:
  *         description: Invalid request data
  *       500:
  *         description: Internal server error
  */
-router.post('/', serviceHistoryController.createServiceHistory);
+router.post('/', serviceRequestController.createServiceRequest);
 
 /**
  * @swagger
- * /api/v1/service-history/{id}:
+ * /api/v1/service-request/{id}:
  *   put:
- *     summary: Update a service history record
- *     tags: [Service History]
+ *     summary: Update a service request record
+ *     tags: [Service Request]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: Service history ID
+ *         description: Service request ID
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UpdateServiceHistoryDto'
+ *             $ref: '#/components/schemas/UpdateServiceRequestDto'
  *     responses:
  *       200:
- *         description: Service history record updated successfully
+ *         description: Service request record updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ServiceHistory'
+ *               $ref: '#/components/schemas/ServiceRequest'
  *       404:
- *         description: Service history record not found
+ *         description: Service request record not found
  *       500:
  *         description: Internal server error
  */
-router.put('/:id', serviceHistoryController.updateServiceHistory);
+router.put('/:id', serviceRequestController.updateServiceRequest);
 
 /**
  * @swagger
- * /api/v1/service-history/{id}:
+ * /api/v1/service-request/{id}:
  *   delete:
- *     summary: Delete a service history record
- *     tags: [Service History]
+ *     summary: Delete a service request record
+ *     tags: [Service Request]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: Service history ID
+ *         description: Service request ID
  *     responses:
  *       204:
- *         description: Service history record deleted successfully
+ *         description: Service request record deleted successfully
  *       404:
- *         description: Service history record not found
+ *         description: Service request record not found
  *       500:
  *         description: Internal server error
  */
-router.delete('/:id', serviceHistoryController.deleteServiceHistory);
+router.delete('/:id', serviceRequestController.deleteServiceRequest);
 
 export default router;

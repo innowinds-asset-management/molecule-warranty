@@ -15,7 +15,7 @@ async function main() {
   await prisma.contractType.deleteMany();
   await prisma.consumerPreference.deleteMany();
   await prisma.supplierPreference.deleteMany();
-  await prisma.serviceHistory.deleteMany();
+  await prisma.serviceRequest.deleteMany();
 
   console.log('✅ Existing data cleared');
 
@@ -455,10 +455,10 @@ async function main() {
 
   console.log(`✅ Created ${warrantyNotifications.length} warranty notifications`);
 
-  // 9. Create Service History Records
-  console.log('📋 Creating service history records...');
-  const serviceHistoryRecords = await Promise.all([
-    prisma.serviceHistory.create({
+  // 9. Create Service Request Records
+  console.log('📋 Creating service request records...');
+  const serviceRequestRecords = await Promise.all([
+    prisma.serviceRequest.create({
       data: {
         assetId: '1001',
         technicianName: 'John Smith',
@@ -470,7 +470,7 @@ async function main() {
         serviceDescription: 'Routine maintenance check and cleaning of HVAC system'
       }
     }),
-    prisma.serviceHistory.create({
+    prisma.serviceRequest.create({
       data: {
         assetId: '1002',
         technicianName: 'Sarah Johnson',
@@ -482,7 +482,7 @@ async function main() {
         serviceDescription: 'Replaced faulty motor bearings in production line'
       }
     }),
-    prisma.serviceHistory.create({
+    prisma.serviceRequest.create({
       data: {
         assetId: '1003',
         technicianName: 'Mike Davis',
@@ -494,7 +494,7 @@ async function main() {
         serviceDescription: 'Installed new backup power system'
       }
     }),
-    prisma.serviceHistory.create({
+    prisma.serviceRequest.create({
       data: {
         assetId: '1001',
         technicianName: 'Lisa Chen',
@@ -506,7 +506,7 @@ async function main() {
         serviceDescription: 'Scheduled quarterly maintenance'
       }
     }),
-    prisma.serviceHistory.create({
+    prisma.serviceRequest.create({
       data: {
         assetId: '1004',
         technicianName: 'Robert Wilson',
@@ -520,7 +520,74 @@ async function main() {
     })
   ]);
 
-  console.log(`✅ Created ${serviceHistoryRecords.length} service history records`);
+  console.log(`✅ Created ${serviceRequestRecords.length} service request records`);
+
+  // 10. Create Service Request Items
+  console.log('📋 Creating service request items...');
+  const serviceRequestItems = await Promise.all([
+    prisma.serviceRequestItem.create({
+      data: {
+        serviceRequestId: 1,
+        assetId: '1001',
+        partName: 'Engine Oil Filter',
+        partCost: 25.50,
+        labourCost: 50.00,
+        defectDescription: 'Regular oil filter replacement',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    }),
+    prisma.serviceRequestItem.create({
+      data: {
+        serviceRequestId: 1,
+        assetId: '1001',
+        partName: 'Synthetic Oil',
+        partCost: 45.00,
+        labourCost: 30.00,
+        defectDescription: 'Oil change with synthetic oil',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    }),
+    prisma.serviceRequestItem.create({
+      data: {
+        serviceRequestId: 2,
+        assetId: '1002',
+        partName: 'Brake Pads',
+        partCost: 120.00,
+        labourCost: 80.00,
+        defectDescription: 'Front brake pad replacement',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    }),
+    prisma.serviceRequestItem.create({
+      data: {
+        serviceRequestId: 2,
+        assetId: '1002',
+        partName: 'Brake Fluid',
+        partCost: 15.00,
+        labourCost: 25.00,
+        defectDescription: 'Brake fluid top-up',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    }),
+    prisma.serviceRequestItem.create({
+      data: {
+        serviceRequestId: 3,
+        assetId: '1003',
+        partName: 'Air Filter',
+        partCost: 35.00,
+        labourCost: 20.00,
+        defectDescription: 'Air filter replacement',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    }),
+  ]);
+
+  console.log(`✅ Created ${serviceRequestItems.length} service request items`);
 
   console.log('\n🎉 Database seeding completed successfully!');
   console.log('\n📊 Sample Data Summary:');
@@ -532,7 +599,7 @@ async function main() {
   console.log(`   Warranties: ${warranties.length}`);
   console.log(`   Service Contracts: ${serviceContracts.length}`);
   console.log(`   Warranty Notifications: ${warrantyNotifications.length}`);
-  console.log(`   Service History Records: ${serviceHistoryRecords.length}`);
+  console.log(`   Service Request Records: ${serviceRequestRecords.length}`);
   
   console.log('\n🔑 Sample Data Details:');
   console.log('   Warranty Types: Manufacturer, Extended, Service Contract, Third Party, Premium');
