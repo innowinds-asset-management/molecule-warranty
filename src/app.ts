@@ -11,7 +11,8 @@ import { errorHandler } from './middleware/errorHandler';
 import { HealthController } from './controllers/health.controller';
 import { specs } from './swagger';
 import warrantyRoutes from './routes/warranty.route';
-
+import serviceHistoryRoutes from './routes/serviceHistory.route';
+  
 dotenv.config();
 
 const app = express();
@@ -127,6 +128,8 @@ const apiPrefix = process.env['API_PREFIX'] || '/api/v1';
 
 // Warranty routes
 app.use(`${apiPrefix}/warranty`, warrantyRoutes);
+// Service history routes
+app.use(`${apiPrefix}/service-history`, serviceHistoryRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

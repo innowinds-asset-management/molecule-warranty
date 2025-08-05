@@ -15,6 +15,7 @@ async function main() {
   await prisma.contractType.deleteMany();
   await prisma.consumerPreference.deleteMany();
   await prisma.supplierPreference.deleteMany();
+  await prisma.serviceHistory.deleteMany();
 
   console.log('✅ Existing data cleared');
 
@@ -454,6 +455,73 @@ async function main() {
 
   console.log(`✅ Created ${warrantyNotifications.length} warranty notifications`);
 
+  // 9. Create Service History Records
+  console.log('📋 Creating service history records...');
+  const serviceHistoryRecords = await Promise.all([
+    prisma.serviceHistory.create({
+      data: {
+        assetId: '1001',
+        technicianName: 'John Smith',
+        serviceSupplierName: 'TechCorp Services',
+        warrantyStatus: 'ACTIVE',
+        serviceStatus: 'COMPLETED',
+        serviceDate: new Date('2024-06-15'),
+        serviceType: 'Preventive',
+        serviceDescription: 'Routine maintenance check and cleaning of HVAC system'
+      }
+    }),
+    prisma.serviceHistory.create({
+      data: {
+        assetId: '1002',
+        technicianName: 'Sarah Johnson',
+        serviceSupplierName: 'Maintenance Pro',
+        warrantyStatus: 'ACTIVE',
+        serviceStatus: 'COMPLETED',
+        serviceDate: new Date('2024-07-20'),
+        serviceType: 'Repair',
+        serviceDescription: 'Replaced faulty motor bearings in production line'
+      }
+    }),
+    prisma.serviceHistory.create({
+      data: {
+        assetId: '1003',
+        technicianName: 'Mike Davis',
+        serviceSupplierName: 'Industrial Solutions',
+        warrantyStatus: 'EXPIRED',
+        serviceStatus: 'COMPLETED',
+        serviceDate: new Date('2024-08-10'),
+        serviceType: 'Installation',
+        serviceDescription: 'Installed new backup power system'
+      }
+    }),
+    prisma.serviceHistory.create({
+      data: {
+        assetId: '1001',
+        technicianName: 'Lisa Chen',
+        serviceSupplierName: 'TechCorp Services',
+        warrantyStatus: 'ACTIVE',
+        serviceStatus: 'IN_PROGRESS',
+        serviceDate: new Date('2024-09-05'),
+        serviceType: 'Preventive',
+        serviceDescription: 'Scheduled quarterly maintenance'
+      }
+    }),
+    prisma.serviceHistory.create({
+      data: {
+        assetId: '1004',
+        technicianName: 'Robert Wilson',
+        serviceSupplierName: 'Emergency Repairs Inc',
+        warrantyStatus: 'ACTIVE',
+        serviceStatus: 'COMPLETED',
+        serviceDate: new Date('2024-09-12'),
+        serviceType: 'Repair',
+        serviceDescription: 'Emergency repair of conveyor belt system'
+      }
+    })
+  ]);
+
+  console.log(`✅ Created ${serviceHistoryRecords.length} service history records`);
+
   console.log('\n🎉 Database seeding completed successfully!');
   console.log('\n📊 Sample Data Summary:');
   console.log(`   Warranty Types: ${warrantyTypes.length}`);
@@ -464,6 +532,7 @@ async function main() {
   console.log(`   Warranties: ${warranties.length}`);
   console.log(`   Service Contracts: ${serviceContracts.length}`);
   console.log(`   Warranty Notifications: ${warrantyNotifications.length}`);
+  console.log(`   Service History Records: ${serviceHistoryRecords.length}`);
   
   console.log('\n🔑 Sample Data Details:');
   console.log('   Warranty Types: Manufacturer, Extended, Service Contract, Third Party, Premium');

@@ -725,6 +725,142 @@ const options = {
               description: 'Supplier ID'
             }
           }
+        },
+        ServiceHistory: {
+          type: 'object',
+          properties: {
+            serviceHistoryId: {
+              type: 'integer',
+              description: 'Unique identifier for the service history record'
+            },
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this service history belongs to'
+            },
+            technicianName: {
+              type: 'string',
+              description: 'Name of the technician who performed the service'
+            },
+            serviceSupplierName: {
+              type: 'string',
+              description: 'Name of the service supplier'
+            },
+            warrantyStatus: {
+              type: 'string',
+              enum: ['ACTIVE', 'EXPIRED', 'VOID'],
+              description: 'Warranty status at the time of service'
+            },
+            serviceStatus: {
+              type: 'string',
+              nullable: true,
+              description: 'Status of the service performed'
+            },
+            serviceDate: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Date when the service was performed'
+            },
+            serviceType: {
+              type: 'string',
+              nullable: true,
+              description: 'Type of service performed (Preventive, Repair, Installation)'
+            },
+            serviceDescription: {
+              type: 'string',
+              nullable: true,
+              description: 'Detailed description of the service performed'
+            },
+            createdAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Service history creation timestamp'
+            },
+            updatedAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Service history last update timestamp'
+            }
+          },
+          required: ['serviceHistoryId', 'assetId', 'technicianName', 'serviceSupplierName', 'warrantyStatus', 'serviceDate', 'createdAt', 'updatedAt']
+        },
+        CreateServiceHistoryDto: {
+          type: 'object',
+          properties: {
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this service history belongs to'
+            },
+            technicianName: {
+              type: 'string',
+              description: 'Name of the technician who performed the service'
+            },
+            serviceSupplierName: {
+              type: 'string',
+              description: 'Name of the service supplier'
+            },
+            warrantyStatus: {
+              type: 'string',
+              enum: ['ACTIVE', 'EXPIRED', 'VOID'],
+              description: 'Warranty status at the time of service'
+            },
+            serviceStatus: {
+              type: 'string',
+              description: 'Status of the service performed'
+            },
+            serviceDate: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Date when the service was performed'
+            },
+            serviceType: {
+              type: 'string',
+              description: 'Type of service performed (Preventive, Repair, Installation)'
+            },
+            serviceDescription: {
+              type: 'string',
+              description: 'Detailed description of the service performed'
+            }
+          },
+          required: ['assetId', 'technicianName', 'serviceSupplierName', 'warrantyStatus', 'serviceDate']
+        },
+        UpdateServiceHistoryDto: {
+          type: 'object',
+          properties: {
+            assetId: {
+              type: 'string',
+              description: 'Asset ID this service history belongs to'
+            },
+            technicianName: {
+              type: 'string',
+              description: 'Name of the technician who performed the service'
+            },
+            serviceSupplierName: {
+              type: 'string',
+              description: 'Name of the service supplier'
+            },
+            warrantyStatus: {
+              type: 'string',
+              enum: ['ACTIVE', 'EXPIRED', 'VOID'],
+              description: 'Warranty status at the time of service'
+            },
+            serviceStatus: {
+              type: 'string',
+              description: 'Status of the service performed'
+            },
+            serviceDate: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Date when the service was performed'
+            },
+            serviceType: {
+              type: 'string',
+              description: 'Type of service performed (Preventive, Repair, Installation)'
+            },
+            serviceDescription: {
+              type: 'string',
+              description: 'Detailed description of the service performed'
+            }
+          }
         }
       },
       parameters: {

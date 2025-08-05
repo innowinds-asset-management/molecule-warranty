@@ -584,5 +584,24 @@ export interface ServiceContractQueryParams {
   coverageType?: CoverageType;
 }
 
+//SeriveHistory 
+export interface ServiceHistoryDto {
+  serviceHistoryId?: number;
+  assetId: string;
+  technicianName: string;
+  serviceSupplierName: string;
+  warrantyStatus: string; // or WarrantyStatus if you have the enum imported
+  serviceStatus?: string;
+  serviceDate: Date;
+  serviceType?: string;
+  serviceDescription?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+
+
+
+
 
 
