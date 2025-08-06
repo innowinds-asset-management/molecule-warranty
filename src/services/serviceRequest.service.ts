@@ -114,9 +114,5 @@ export class ServiceRequestService {
     });
     return created as ServiceRequestDto;
   }
-} 
-
-
-
-export const serviceRequestService = new ServiceRequestService();
-
+}
+  
